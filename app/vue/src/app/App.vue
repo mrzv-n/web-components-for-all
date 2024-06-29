@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import NxWelcome from './NxWelcome.vue';
+import Form from "./Form.vue";
 </script>
 
 <template>
-  <NxWelcome title="vue" />
+  <Form title="vue" />
 </template>

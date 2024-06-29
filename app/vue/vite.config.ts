@@ -17,7 +17,13 @@ export default defineConfig({
     host: 'localhost',
   },
 
-  plugins: [vue(), nxViteTsPaths()],
+  plugins: [vue({
+    template: {
+      compilerOptions: {
+        isCustomElement: tag => tag.includes('-'),
+      }
+    }
+  }), nxViteTsPaths()],
 
   // Uncomment this if you are using workers.
   // worker: {

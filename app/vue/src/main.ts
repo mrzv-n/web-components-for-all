@@ -1,4 +1,5 @@
 import './styles.scss';
+import '../../../ui/src/index'
 
 import { createApp } from 'vue';
 import App from './app/App.vue';
