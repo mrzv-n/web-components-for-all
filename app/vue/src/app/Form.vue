@@ -1,11 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 
 defineProps<{
   title: string;
 }>();
 
 const title = ref('vue');
+
+const form = reactive({
+  birthDay: '',
+  fullName: '',
+  phoneNumber: '',
+});
+
+function onInput(e: Event, fieldName: string) {
+  form[fieldName] = e.target.value;
+}
 </script>
 
 <template>
@@ -20,7 +30,28 @@ const title = ref('vue');
 
       <button @click="title = 'test'"></button>
 
-      <base-input value="KJGHkjhggkjh"></base-input>
+      <base-input
+        :value="form.birthDay"
+        label="Дата рождения"
+        :error="!form.birthDay ? 'Заполните дату рождения' : ''"
+        @input="(e: Event) => onInput(e, 'birthDay')"
+      ></base-input>
+
+      <base-input
+        :value="form.fullName"
+        label="Фамилия Имя Отчество"
+        :error="!form.fullName ? 'Заполните ФИО' : ''"
+        @input="(e: Event) => onInput(e, 'fullName')"
+      ></base-input>
+
+      <base-input
+        :value="form.phoneNumber"
+        label="Телефон"
+        :error="!form.phoneNumber ? 'Заполните телефон' : ''"
+        @input="(e: Event) => onInput(e, 'phoneNumber')"
+      ></base-input>
+
+      <base-selector></base-selector>
     </div>
   </div>
 </template>
