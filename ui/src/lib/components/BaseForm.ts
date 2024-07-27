@@ -1,4 +1,5 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html } from 'lit';
+import { baseFormStyles } from '../styles/baseFormStyles';
 
 export class BaseForm extends LitElement {
   static override get properties() {
@@ -9,11 +10,7 @@ export class BaseForm extends LitElement {
     };
   }
   // Define scoped styles right with your component, in plain CSS
-  static override styles = css`
-    :host {
-      color: blue;
-    }
-  `;
+  static override styles = [baseFormStyles];
 
   constructor() {
     super();
@@ -22,7 +19,7 @@ export class BaseForm extends LitElement {
 
   // Render the UI as a function of component state
   override render() {
-    return html` <base-input></base-input> `;
+    return html`<slot></slot>`;
   }
 }
 customElements.define('base-form', BaseForm);

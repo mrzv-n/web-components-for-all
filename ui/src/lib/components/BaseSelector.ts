@@ -1,16 +1,18 @@
 import { LitElement, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { baseInputStyles } from '../styles/baseInputStyles';
+import { dropDownStyles } from '../styles/dropdownStyles';
 
 @customElement('base-selector')
 export class BaseSelector extends LitElement {
-  @property({
-    attribute: false,
-  })
+  @property()
   label = '';
 
   @property()
-  value = 'AAAA';
+  value = '';
+
+  @property({ type: Array })
+  options: string[] = [];
 
   @property({
     type: Boolean,
@@ -41,27 +43,25 @@ export class BaseSelector extends LitElement {
   })
   error = '';
 
-  static styles = [baseInputStyles];
+  @state() filteredOptions: string[] = [];
+
+  static override styles = [baseInputStyles, dropDownStyles];
 
   constructor() {
     super();
     // Declare reactive properties
-    this.value = '';
     this.filled = false;
     this.disabled = false;
     this.opened = false;
+    this.filteredOptions = this.options;
   }
 
-  firstUpdated() {
+  override firstUpdated() {
+    this.filterData(this.value);
     this.toggleInputFilled();
   }
 
   toggleInputFilled() {
-    this.filled = !!this.value;
-  }
-
-  onInput(e) {
-    this.value = e.target.value;
     this.filled = !!this.value;
   }
 
@@ -81,19 +81,46 @@ export class BaseSelector extends LitElement {
     this.opened = false;
   }
 
+  selectItem(e: Event) {
+    const value = (e.target as Element).getAttribute('key') || '';
+
+    const event = new CustomEvent('select-item', {
+      bubbles: true,
+      composed: true,
+      detail: {
+        value: value,
+      },
+    });
+
+    this.dispatchEvent(event);
+
+    this.toggleInputFilled();
+    this.hideDropdown();
+  }
+
+  onInput(e: Event) {
+    const filterValue = (e.target as HTMLInputElement).value;
+    this.filterData(filterValue);
+  }
+
+  filterData(value: string) {
+    this.filteredOptions = this.options.filter((item: String) =>
+      item.includes(value)
+    );
+  }
+
   toggleDropdown() {
     this.opened = !this.opened;
   }
 
-  // Render the UI as a function of component state
-  render() {
+  override render() {
     return html`
       <div class="base-input">
         <div class="base-input__body">
           <input
             class="base-input__input"
             type="text"
-            value=${this.value}
+            .value=${this.value}
             disabled=${this.disabled || nothing}
             @focus=${this.showDropdown}
             @input=${this.onInput}
@@ -124,24 +151,20 @@ export class BaseSelector extends LitElement {
           <div class="base-input__dropdown dropdown dropdown--scrollable">
             <div class="dropdown__body">
               <ul class="dropdown__list">
-                <li class="dropdown__item">
-                  <button
-                    type="button"
-                    class="dropdown__button"
-                    data-dropdown-item
-                  >
-                    г. Москва
-                  </button>
-                </li>
-                <li class="dropdown__item _selected">
-                  <button
-                    type="button"
-                    class="dropdown__button"
-                    data-dropdown-item
-                  >
-                    Владимирская область
-                  </button>
-                </li>
+                ${this.filteredOptions.map(
+                  (item) =>
+                    html` <li class="dropdown__item">
+                      <button
+                        type="button"
+                        class="dropdown__button"
+                        key=${item}
+                        @click=${this.selectItem}
+                        active=${item === this.value || nothing}
+                      >
+                        ${item}
+                      </button>
+                    </li>`
+                )}
               </ul>
             </div>
           </div>

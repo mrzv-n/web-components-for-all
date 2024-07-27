@@ -8,7 +8,7 @@ export default defineConfig({
   cacheDir: '../../node_modules/.vite/app/vue',
 
   server: {
-    port: 4200,
+    port: 4300,
     host: 'localhost',
   },
 
@@ -17,13 +17,16 @@ export default defineConfig({
     host: 'localhost',
   },
 
-  plugins: [vue({
-    template: {
-      compilerOptions: {
-        isCustomElement: tag => tag.includes('-'),
-      }
-    }
-  }), nxViteTsPaths()],
+  plugins: [
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.includes('-'),
+        },
+      },
+    }),
+    nxViteTsPaths(),
+  ],
 
   // Uncomment this if you are using workers.
   // worker: {

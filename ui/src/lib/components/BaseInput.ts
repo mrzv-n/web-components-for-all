@@ -1,5 +1,5 @@
 import { LitElement, html, nothing } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { baseInputStyles } from '../styles/baseInputStyles';
 
 @customElement('base-input')
@@ -35,17 +35,16 @@ export class BaseInput extends LitElement {
   })
   error = '';
 
-  static styles = [baseInputStyles];
+  static override styles = [baseInputStyles];
 
   constructor() {
     super();
-    // Declare reactive properties
     this.value = '';
     this.filled = false;
     this.disabled = false;
   }
 
-  firstUpdated() {
+  override firstUpdated() {
     this.toggleInputFilled();
   }
 
@@ -53,8 +52,8 @@ export class BaseInput extends LitElement {
     this.filled = !!this.value;
   }
 
-  onInput(e) {
-    this.value = e.target.value;
+  onInput(e: Event) {
+    this.value = (e.target as HTMLInputElement).value;
     this.filled = !!this.value;
   }
 
@@ -67,14 +66,14 @@ export class BaseInput extends LitElement {
   }
 
   // Render the UI as a function of component state
-  render() {
+  override render() {
     return html`
       <div class="base-input">
         <div class="base-input__body">
           <input
             class="base-input__input"
             type="text"
-            value=${this.value}
+            .value=${this.value}
             disabled=${this.disabled || nothing}
             @input=${this.onInput}
           />

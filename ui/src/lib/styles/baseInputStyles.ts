@@ -23,10 +23,6 @@ export const baseInputStyles = css`
     box-sizing: border-box;
   }
 
-  :host(:focus) {
-    border: 10px solid #000;
-  }
-
   .base-input__body {
     display: flex;
     position: relative;
@@ -141,7 +137,7 @@ export const baseInputStyles = css`
   :host([opened]) .base-input__dropdown {
     opacity: 1;
     visibility: visible;
-    transform: translateY(100%);
+    transform: translateY(0);
   }
 
   .base-input__ctrl {
