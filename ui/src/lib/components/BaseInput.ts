@@ -4,13 +4,11 @@ import { baseInputStyles } from '../styles/baseInputStyles';
 
 @customElement('base-input')
 export class BaseInput extends LitElement {
-  @property({
-    attribute: false,
-  })
+  @property()
   label = '';
 
   @property()
-  value = 'AAAA';
+  value = '';
 
   @property({
     type: Boolean,
