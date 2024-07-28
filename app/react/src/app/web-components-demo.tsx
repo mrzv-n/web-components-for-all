@@ -1,12 +1,6 @@
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- This is a starter component and can be deleted.
- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- Delete this file and get started with your project!
- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
 import { UIForm, UIInput, UISelector } from './ui/BaseComponents';
 import { useState } from 'react';
+import { phoneMask } from '../../../../ui/src/lib/utills/formattets';
 
 export function WebComponentsDemo({ title }: { title: string }) {
   const [form, setForm] = useState({
@@ -63,6 +57,7 @@ export function WebComponentsDemo({ title }: { title: string }) {
             <UIInput
               value={form.phoneNumber}
               label="Телефон"
+              maskFunction={phoneMask}
               error={!form.phoneNumber ? 'Заполните телефон' : ''}
               oninput={(e: Event) => onInput(e, 'phoneNumber')}
             />

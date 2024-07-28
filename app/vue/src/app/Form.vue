@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
+import { phoneMask } from '../../../../ui/src/lib/utills/formattets';
 
 defineProps<{
   title: string;
@@ -55,6 +56,7 @@ function onSelect(e: CustomEvent, fieldName: string) {
         <base-input
           :value="form.phoneNumber"
           label="Телефон"
+          .maskFunction="phoneMask"
           :error="!form.phoneNumber ? 'Заполните телефон' : ''"
           @input="(e: Event) => onInput(e, 'phoneNumber')"
         ></base-input>

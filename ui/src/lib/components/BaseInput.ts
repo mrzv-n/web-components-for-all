@@ -1,4 +1,4 @@
-import { LitElement, html, nothing } from 'lit';
+import { html, LitElement, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { baseInputStyles } from '../styles/baseInputStyles';
 
@@ -33,6 +33,9 @@ export class BaseInput extends LitElement {
   })
   error = '';
 
+  @property({ type: Function, attribute: false })
+  maskFunction = (value: string): string => value;
+
   static override styles = [baseInputStyles];
 
   constructor() {
@@ -51,6 +54,14 @@ export class BaseInput extends LitElement {
   }
 
   onInput(e: Event) {
+    e.preventDefault();
+
+    if (this.maskFunction) {
+      (e.target as HTMLInputElement).value = this.maskFunction(
+        (e.target as HTMLInputElement).value
+      );
+    }
+
     this.value = (e.target as HTMLInputElement).value;
     this.filled = !!this.value;
   }
@@ -63,7 +74,25 @@ export class BaseInput extends LitElement {
     }
   }
 
-  // Render the UI as a function of component state
+  // Для демки с импользованием маски ВНУТРИ компонента
+  // maskFunction(value: string) {
+  //   // Удаляем все нечисловые символы
+  //   value = value.replace(/\D/g, '');
+  //
+  //   if (value.length > 11) {
+  //     value = value.slice(0, 11);
+  //   }
+  //
+  //   const match = value.match(/^(\d{1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})$/);
+  //   if (match) {
+  //     return `+${match[1]}${match[2] ? ` (${match[2]}` : ''}${
+  //       match[3] ? `) ${match[3]}` : ''
+  //     }${match[4] ? `-${match[4]}` : ''}${match[5] ? `-${match[5]}` : ''}`;
+  //   }
+  //
+  //   return value;
+  // }
+
   override render() {
     return html`
       <div class="base-input">
