@@ -6,7 +6,7 @@ import {
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-nx-welcome',
+  selector: 'web-components-demo',
   standalone: true,
   imports: [CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
