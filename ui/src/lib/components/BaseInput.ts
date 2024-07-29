@@ -33,7 +33,10 @@ export class BaseInput extends LitElement {
   })
   error = '';
 
-  @property({ type: Function, attribute: false })
+  @property({
+    type: Function,
+    attribute: false,
+  })
   maskFunction = (value: string): string => value;
 
   static override styles = [baseInputStyles];
@@ -56,11 +59,9 @@ export class BaseInput extends LitElement {
   onInput(e: Event) {
     e.preventDefault();
 
-    if (this.maskFunction) {
-      (e.target as HTMLInputElement).value = this.maskFunction(
-        (e.target as HTMLInputElement).value
-      );
-    }
+    (e.target as HTMLInputElement).value = this.maskFunction(
+      (e.target as HTMLInputElement).value
+    );
 
     this.value = (e.target as HTMLInputElement).value;
     this.filled = !!this.value;
