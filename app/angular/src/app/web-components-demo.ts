@@ -35,6 +35,7 @@ import { CommonModule } from '@angular/common';
             (input)="onInput($event, 'fullName')"
             [error]="!form.fullName ? 'Заполните ФИО' : ''"
           ></base-input>
+          
           <base-input
             [value]="form.phoneNumber"
             label="Телефон"
